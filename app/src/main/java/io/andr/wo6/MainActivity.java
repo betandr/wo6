@@ -55,12 +55,16 @@ public class MainActivity extends Activity {
             try {
                 String artist = result.getJSONObject("message").get("artist").toString();
                 String title = result.getJSONObject("message").get("title").toString();
+                String packShotPid = result.getJSONObject("message").get("record_image_pid").toString();
 
                 textTrackData.setVisibility(View.VISIBLE);
                 textTrackData.setText(artist + "\n" + title);
 
                 ImageView packShot = (ImageView) findViewById(R.id.packshot_image);
-                new DownloadImageTask(packShot).execute(url);
+
+                String packShotUrl = "http://ichef.bbci.co.uk/images/ic/320x320/" + packShotPid;
+
+                new DownloadImageTask(packShot).execute(packShotUrl);
 
             } catch(JSONException je) {
                 textTrackData.setVisibility(View.VISIBLE);

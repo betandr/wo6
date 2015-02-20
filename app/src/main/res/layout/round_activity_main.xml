@@ -27,6 +27,7 @@
                 android:layout_gravity="center_horizontal" />
 
             <TextView
+                android:visibility="invisible"
                 android:layout_weight="1"
                 android:padding="10dp"
                 android:background="@drawable/text_view_style"
@@ -34,7 +35,7 @@
                 android:id="@+id/text_track_data"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:text="Blossoms\nCut Me And I'll Bleed"
+                android:text=""
                 android:textColor="@color/black" />
 
             <Space

@@ -2,53 +2,74 @@
 <items version="2" >
 
     <item
-        jar="/Users/beth/Projects/android_studio/Wo6/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.0/classes.jar"
+        jar="/Users/beth/Projects/android_studio/Wo6/wear/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.0/classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="686344a780033e4ba22b926cd225f8d4941247e6">
-        <dex dex="/Users/beth/Projects/android_studio/Wo6/app/build/intermediates/pre-dexed/debug/classes-b6ba03c2272257a1f6a7b5b8f351f92df13dbb7d.jar" />
+        <dex dex="/Users/beth/Projects/android_studio/Wo6/wear/build/intermediates/pre-dexed/debug/classes-849995e3242738fa4b5f3498a3dd2c0a715b28f6.jar" />
     </item>
     <item
-        jar="/Users/beth/Projects/android_studio/Wo6/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/6.5.87/classes.jar"
+        jar="/Users/beth/Projects/android_studio/Wo6/wear/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/6.5.87/classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="95482e7c792a7c0d5a9d5461e97726bd54fe9549">
-        <dex dex="/Users/beth/Projects/android_studio/Wo6/app/build/intermediates/pre-dexed/debug/classes-bd1b58d6248ec35929a8bef616b3450446ed88ad.jar" />
+        <dex dex="/Users/beth/Projects/android_studio/Wo6/wear/build/intermediates/pre-dexed/debug/classes-965fe20a7f4fd0ef208a1565f3ff5dbff71b7aca.jar" />
     </item>
     <item
-        jar="/Users/beth/Projects/android_studio/Wo6/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.0/libs/internal_impl-21.0.0.jar"
+        jar="/Users/beth/Projects/android_studio/Wo6/mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.5.87/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="dd9247ea0fabe8ee479638c4b4a23e93752be256">
+        <dex dex="/Users/beth/Projects/android_studio/Wo6/mobile/build/intermediates/pre-dexed/debug/classes-20fa86fc7b93ba4b1ec89b456d718bc9476cfc13.jar" />
+    </item>
+    <item
+        jar="/Users/beth/Projects/android_studio/Wo6/wear/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.0/libs/internal_impl-21.0.0.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="1609e6d42d0480b0f4188e2c29f75388fa12a8f0">
-        <dex dex="/Users/beth/Projects/android_studio/Wo6/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.0-b3c57f64560df992c735022b4fd49dceff59cc08.jar" />
+        <dex dex="/Users/beth/Projects/android_studio/Wo6/wear/build/intermediates/pre-dexed/debug/internal_impl-21.0.0-0ed58080f24ea6174cabd98ff40ca79b3a182c02.jar" />
+    </item>
+    <item
+        jar="/Users/beth/Projects/android_studio/Wo6/wear/build/intermediates/exploded-aar/com.google.android.support/wearable/1.1.0/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="27f19641b81b1078e653d2f0e5d1ed44d158a785">
+        <dex dex="/Users/beth/Projects/android_studio/Wo6/wear/build/intermediates/pre-dexed/debug/classes-5e68e43ce9f8e4c469c0bf2895733b4d6ade4ee0.jar" />
+    </item>
+    <item
+        jar="/Users/beth/Projects/android_studio/Wo6/wear/build/intermediates/exploded-aar/com.google.android.gms/play-services-wearable/6.5.87/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="6384c6cd674a22610b932d9464aa6938d067f285">
+        <dex dex="/Users/beth/Projects/android_studio/Wo6/wear/build/intermediates/pre-dexed/debug/classes-8d7ba9ca9287ab536d517802b60593ca3e6a5e95.jar" />
+    </item>
+    <item
+        jar="/Users/beth/Projects/android_studio/Wo6/mobile/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.0/libs/internal_impl-21.0.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="1609e6d42d0480b0f4188e2c29f75388fa12a8f0">
+        <dex dex="/Users/beth/Projects/android_studio/Wo6/mobile/build/intermediates/pre-dexed/debug/internal_impl-21.0.0-d7677f9a9fda3ceb76bbe7e7e9cc5bb51c0ea14c.jar" />
+    </item>
+    <item
+        jar="/Users/beth/Projects/android_studio/Wo6/wear/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/21.0.0/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="efeda77c808750cb670ee9c48d8a1835d89dbcb2">
+        <dex dex="/Users/beth/Projects/android_studio/Wo6/wear/build/intermediates/pre-dexed/debug/classes-df881d9f573c63ab1605652c41e81b278ddf27dd.jar" />
     </item>
     <item
         jar="/Users/Shared/android-sdk-macosx/extras/android/m2repository/com/android/support/support-annotations/21.0.0/support-annotations-21.0.0.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="1a578b9607b36266c63d43a4fa0ab5664dbe911e">
-        <dex dex="/Users/beth/Projects/android_studio/Wo6/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.0-2a5a0384466b1987e4a8597cfdd13ad20dc8dff7.jar" />
+        <dex dex="/Users/beth/Projects/android_studio/Wo6/mobile/build/intermediates/pre-dexed/debug/support-annotations-21.0.0-2a5a0384466b1987e4a8597cfdd13ad20dc8dff7.jar" />
     </item>
     <item
-        jar="/Users/beth/Projects/android_studio/Wo6/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wearable/6.5.87/classes.jar"
+        jar="/Users/beth/Projects/android_studio/Wo6/mobile/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.0/classes.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="6384c6cd674a22610b932d9464aa6938d067f285">
-        <dex dex="/Users/beth/Projects/android_studio/Wo6/app/build/intermediates/pre-dexed/debug/classes-5f0c58309f54892c8d00de50e5a0dab3a6fabd99.jar" />
-    </item>
-    <item
-        jar="/Users/beth/Projects/android_studio/Wo6/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/21.0.0/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="efeda77c808750cb670ee9c48d8a1835d89dbcb2">
-        <dex dex="/Users/beth/Projects/android_studio/Wo6/app/build/intermediates/pre-dexed/debug/classes-937b51d97ddeb073aa2d74843234110a16a753a1.jar" />
-    </item>
-    <item
-        jar="/Users/beth/Projects/android_studio/Wo6/app/build/intermediates/exploded-aar/com.google.android.support/wearable/1.1.0/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="27f19641b81b1078e653d2f0e5d1ed44d158a785">
-        <dex dex="/Users/beth/Projects/android_studio/Wo6/app/build/intermediates/pre-dexed/debug/classes-876b72861e2ee83668259dd0b408a40edf8bc40c.jar" />
+        sha1="686344a780033e4ba22b926cd225f8d4941247e6">
+        <dex dex="/Users/beth/Projects/android_studio/Wo6/mobile/build/intermediates/pre-dexed/debug/classes-cb2dbf916c19728ce47e0b626eb1eea905b22881.jar" />
     </item>
 
 </items>

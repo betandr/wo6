@@ -23,13 +23,6 @@
         <dex dex="/Users/beth/Projects/android_studio/Wo6/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.0-b3c57f64560df992c735022b4fd49dceff59cc08.jar" />
     </item>
     <item
-        jar="/Users/beth/Projects/android_studio/Wo6/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/21.0.0/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="efeda77c808750cb670ee9c48d8a1835d89dbcb2">
-        <dex dex="/Users/beth/Projects/android_studio/Wo6/app/build/intermediates/pre-dexed/debug/classes-937b51d97ddeb073aa2d74843234110a16a753a1.jar" />
-    </item>
-    <item
         jar="/Users/Shared/android-sdk-macosx/extras/android/m2repository/com/android/support/support-annotations/21.0.0/support-annotations-21.0.0.jar"
         jumboMode="false"
         revision="21.1.2"
@@ -42,6 +35,13 @@
         revision="21.1.2"
         sha1="6384c6cd674a22610b932d9464aa6938d067f285">
         <dex dex="/Users/beth/Projects/android_studio/Wo6/app/build/intermediates/pre-dexed/debug/classes-5f0c58309f54892c8d00de50e5a0dab3a6fabd99.jar" />
+    </item>
+    <item
+        jar="/Users/beth/Projects/android_studio/Wo6/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/21.0.0/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="efeda77c808750cb670ee9c48d8a1835d89dbcb2">
+        <dex dex="/Users/beth/Projects/android_studio/Wo6/app/build/intermediates/pre-dexed/debug/classes-937b51d97ddeb073aa2d74843234110a16a753a1.jar" />
     </item>
     <item
         jar="/Users/beth/Projects/android_studio/Wo6/app/build/intermediates/exploded-aar/com.google.android.support/wearable/1.1.0/classes.jar"

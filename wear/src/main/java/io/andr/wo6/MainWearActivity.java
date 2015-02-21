@@ -1,22 +1,20 @@
 package io.andr.wo6;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.wearable.view.WatchViewStub;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.wearable.Asset;
 import com.google.android.gms.wearable.DataApi;
@@ -28,18 +26,11 @@ import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.Wearable;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.URL;
-import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class MainWearActivity extends Activity implements DataApi.DataListener,
@@ -48,7 +39,7 @@ public class MainWearActivity extends Activity implements DataApi.DataListener,
 
     private static final long CONNECTION_TIME_OUT_MS = 100;
 
-    public static final String START_ACTIVITY_PATH = "/start/MainMobActivity";
+    public static final String START_ACTIVITY = "/start/MainMobActivity";
 
     private GoogleApiClient client;
 
@@ -67,19 +58,12 @@ public class MainWearActivity extends Activity implements DataApi.DataListener,
         super.onResume();
 
         Log.d("onResume", "Resuming...");
-
         client = getGoogleApiClient(this);
 
         Log.d("onResume", "Sending messages...");
+//        new SendMessageTask(client).execute();
 
-        new SendMessageTask(client)
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-            asyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
-        else
-            asyncTask.execute(params);
-
-        .execute();
+        sendToWear(START_ACTIVITY);
     }
 
     @Override
@@ -123,7 +107,7 @@ public class MainWearActivity extends Activity implements DataApi.DataListener,
         private void sendStartActivityMessage(String nodeId) {
             Log.d("ssam", "Sending start activity to " + nodeId);
 
-            Wearable.MessageApi.sendMessage(client, nodeId, START_ACTIVITY_PATH, new byte[0])
+            Wearable.MessageApi.sendMessage(client, nodeId, START_ACTIVITY, new byte[0])
                     .setResultCallback(new ResultCallback<MessageApi.SendMessageResult>() {
                         @Override
                         public void onResult(MessageApi.SendMessageResult sendMessageResult) {
@@ -155,6 +139,51 @@ public class MainWearActivity extends Activity implements DataApi.DataListener,
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
         }
+    }
+
+    private void sendToWear(final String message){
+
+        new AsyncTask<Void, Void, List<Node>>(){
+
+            @Override
+            protected List<Node> doInBackground(Void... params) {
+                return getNodes();
+            }
+
+            @Override
+            protected void onPostExecute(List<Node> nodeList) {
+                for(Node node : nodeList) {
+                    Log.v("sendToWear", "Sending Msg: " + message + " to node:  " + node.getId());
+
+                    PendingResult<MessageApi.SendMessageResult> result = Wearable.MessageApi.sendMessage(
+                            client,
+                            node.getId(),
+                            message,
+                            null
+                    );
+
+                    result.setResultCallback(new ResultCallback<MessageApi.SendMessageResult>() {
+                        @Override
+                        public void onResult(MessageApi.SendMessageResult sendMessageResult) {
+                            Log.v("DEVELOPER", "......Phone: " + sendMessageResult.getStatus().getStatusMessage());
+                        }
+                    });
+                }
+            }
+        }.execute();
+
+
+    }
+
+    private List<Node> getNodes() {
+        List<Node> nodes = new ArrayList<Node>();
+        NodeApi.GetConnectedNodesResult rawNodes =
+                Wearable.NodeApi.getConnectedNodes(client).await();
+        for (Node node : rawNodes.getNodes()) {
+            nodes.add(node);
+//            nodeID = node.getId();
+        }
+        return nodes;
     }
 
     @Override

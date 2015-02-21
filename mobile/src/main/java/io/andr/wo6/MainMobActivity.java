@@ -1,12 +1,16 @@
 package io.andr.wo6;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,11 +47,17 @@ public class MainMobActivity extends Activity implements MessageApi.MessageListe
 
     public static final String START_ACTIVITY_PATH = "/start/MainMobActivity";
 
+    public static String ITEM_KEY = "1";
+
+    private String itemKey;
+
     GoogleApiClient client;
 
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
-        // todo Refactor this to a different activity
+        Log.d("onMessageReceived", "Got message " + messageEvent.getPath());
+
+        // todo Refactor this to a different activity!!
         if (messageEvent.getPath().equals(START_ACTIVITY_PATH)) {
             Intent startIntent = new Intent(this, MainMobActivity.class);
             startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -56,6 +66,12 @@ public class MainMobActivity extends Activity implements MessageApi.MessageListe
     }
 
     private class DownloadJsonTask extends AsyncTask<String, Void, JSONObject> {
+        private boolean sendNotification;
+
+        public DownloadJsonTask(boolean sendNotification) {
+            this.sendNotification = sendNotification;
+        }
+
         protected JSONObject doInBackground(String... strings) {
             JSONObject jsonObject = null;
 
@@ -111,18 +127,29 @@ public class MainMobActivity extends Activity implements MessageApi.MessageListe
             textTrackData.setText(track);
             start.setText(startTime);
 
+            String packShotUrl = "";
             try {
                 String packShotPid = result.getJSONObject("message").get("record_image_pid").toString();
                 Log.d("onPostExecute", "packShotPid: " + packShotPid);
 
+                if (packShotPid.indexOf(".jpg") == -1) {
+                    Log.d("onPostExecute", "pid missing extension, appending jpg");
+                    packShotPid = packShotPid + ".jpg";
+                }
+
                 ImageView packShot = (ImageView) findViewById(R.id.packshot_image);
 
-                String packShotUrl = "http://ichef.bbci.co.uk/images/ic/320x320/" + packShotPid;
+                packShotUrl = "http://ichef.bbci.co.uk/images/ic/320x320/" + packShotPid;
                 Log.d("onPostExecute", "packShotUrl: " + packShotUrl);
 
                 new DownloadImageTask(packShot, track).execute(packShotUrl);
             } catch (Exception e) {
                 Log.d("onPostExecute", e.getMessage());
+            }
+
+            if (sendNotification) {
+                Log.d("onPostExecute", "Sending notification");
+                sendIntent(packShotUrl, track);
             }
         }
 
@@ -184,10 +211,74 @@ public class MainMobActivity extends Activity implements MessageApi.MessageListe
             Log.d("onPostExecute", "Putting data item");
             Wearable.DataApi.putDataItem(client, request.asPutDataRequest());
 
-            Log.d("onPostExecute", "Setting app image...");
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            imageView.setImageBitmap(result);
+            if (imageView != null) {
+                Log.d("onPostExecute", "Setting app image...");
+                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                imageView.setImageBitmap(result);
+            }
         }
+    }
+
+    private void sendIntent(String packshotUrl, String track) {
+        Log.d("sendIntent", "Sending " + track + " to Wear device");
+
+        int notificationId = 001;
+
+        Intent responseIntent = new Intent(getApplicationContext(), MainMobActivity.class);
+        responseIntent.putExtra(ITEM_KEY, itemKey);
+
+        PendingIntent viewPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, responseIntent, 0);
+
+        Log.d("sendIntent", "Building notification");
+        NotificationCompat.Builder notificationBuilder =
+                new NotificationCompat.Builder(getApplicationContext())
+                        .setLargeIcon(getLargeIcon(packshotUrl, track))
+                        .setSmallIcon(R.drawable.logo)
+                        .setContentTitle("What's On 6?")
+                        .setContentText(track)
+                        .setContentIntent(viewPendingIntent);
+
+
+        //////////////////
+        NotificationCompat.BigTextStyle secondPageStyle = new NotificationCompat.BigTextStyle();
+        secondPageStyle.setBigContentTitle("Page 2")
+                .bigText("A lot of text...");
+
+        Notification secondPageNotification =
+                new NotificationCompat.Builder(this)
+                        .setStyle(secondPageStyle)
+                        .build();
+
+
+        Notification twoPageNotification =
+                new NotificationCompat.WearableExtender()
+                        .addPage(secondPageNotification)
+                        .extend(notificationBuilder)
+                        .build();
+        /////////////////
+
+        Log.d("sendIntent", "Sending notification");
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        notificationManager.notify(notificationId, twoPageNotification);
+
+        Log.d("sendIntent", "Finished...");
+//        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+//        notificationManager.notify(notificationId, notificationBuilder.build());
+    }
+
+    private Bitmap getLargeIcon(String url, String track) {
+        Log.d("getLargeIcon", "Getting large icon for " + url);
+        // todo The track should not be in here! :/
+        Bitmap bmp = null;
+
+        try {
+            bmp = new DownloadImageTask(null, track).execute(url).get();
+            Log.d("getLargeIcon", "Found " + bmp.getByteCount() + " byte bitmap.");
+        } catch(Exception e) {
+            Log.e("getLargeIcon", e.getMessage());
+        }
+
+        return bmp;
     }
 
     private GoogleApiClient getGoogleApiClient(Context context) {
@@ -203,7 +294,7 @@ public class MainMobActivity extends Activity implements MessageApi.MessageListe
 
         client = getGoogleApiClient(this);
 
-        new DownloadJsonTask().execute(url);
+        new DownloadJsonTask(false).execute(url);
     }
 
     @Override
@@ -222,7 +313,7 @@ public class MainMobActivity extends Activity implements MessageApi.MessageListe
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_refresh) {
-            new DownloadJsonTask().execute(url);
+            new DownloadJsonTask(true).execute(url);
             Toast.makeText(this, "Reloading track data...", Toast.LENGTH_SHORT).show();
             return true;
         }

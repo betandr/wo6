@@ -1,10 +1,12 @@
 package io.andr.wo6;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.wearable.view.WatchViewStub;
 import android.util.Log;
@@ -69,7 +71,15 @@ public class MainWearActivity extends Activity implements DataApi.DataListener,
         client = getGoogleApiClient(this);
 
         Log.d("onResume", "Sending messages...");
-        new SendMessageTask(client).execute();
+
+        new SendMessageTask(client)
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+            asyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
+        else
+            asyncTask.execute(params);
+
+        .execute();
     }
 
     @Override
@@ -92,7 +102,10 @@ public class MainWearActivity extends Activity implements DataApi.DataListener,
         GoogleApiClient client;
 
         public SendMessageTask(GoogleApiClient client) {
+
             this.client = client;
+
+            Log.d("SendMessageTask", "Creating SendMessageTask");
         }
 
         private Collection<String> getNodeIds() {
@@ -110,8 +123,8 @@ public class MainWearActivity extends Activity implements DataApi.DataListener,
         private void sendStartActivityMessage(String nodeId) {
             Log.d("ssam", "Sending start activity to " + nodeId);
 
-            Wearable.MessageApi.sendMessage(client, nodeId, START_ACTIVITY_PATH, new byte[0]).setResultCallback(
-                    new ResultCallback<MessageApi.SendMessageResult>() {
+            Wearable.MessageApi.sendMessage(client, nodeId, START_ACTIVITY_PATH, new byte[0])
+                    .setResultCallback(new ResultCallback<MessageApi.SendMessageResult>() {
                         @Override
                         public void onResult(MessageApi.SendMessageResult sendMessageResult) {
                             if (!sendMessageResult.getStatus().isSuccess()) {
@@ -120,15 +133,17 @@ public class MainWearActivity extends Activity implements DataApi.DataListener,
                                 Log.d("ssam", "Message sent");
                             }
                         }
-                    }
-            );
+                    });
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
 
             Log.d("doInBackground", "Getting nodes...");
-            for (String nodeId : getNodeIds()) {
+            Collection<String> nodeIds = getNodeIds();
+            Log.d("doInBackground", "Found: " + nodeIds);
+
+            for (String nodeId : nodeIds) {
                 Log.d("doInBackground", "Sending activity message to " + nodeId);
                 sendStartActivityMessage(nodeId);
             }
